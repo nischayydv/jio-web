@@ -2,20 +2,20 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/x-icon" href="https://cinearena.github.io/astro-jwplyr/faviconimg.jpeg" />
+    <link rel="shortcut icon" type="image/x-icon" href="https://graph.org/file/775d6d75e7d397ae49f73.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine Arena</title>
+    <title>NY BOTS Player</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.6.0/shaka-player.ui.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.6.0/controls.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      background: #000;
+      background: #141414;
       height: 100vh;
       width: 100vw;
       overflow: hidden;
-      font-family: system-ui, -apple-system, sans-serif;
+      font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
     .shaka-video-container {
       position: absolute;
@@ -30,248 +30,292 @@
       object-fit: contain;
     }
 
-    /* YouTube Theme CSS */
+    /* Netflix Theme CSS */
     @font-face {
-      font-family: 'Roboto';
+      font-family: 'Netflix Sans';
       font-style: normal;
       font-weight: 400;
       font-display: swap;
       src: url(https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
     }
     @font-face {
-      font-family: 'Roboto';
+      font-family: 'Netflix Sans';
       font-style: normal;
       font-weight: 500;
       font-display: swap;
       src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9vAw.ttf) format('truetype');
     }
-    .youtube-theme {
-      font-family: 'Roboto', sans-serif;
+    @font-face {
+      font-family: 'Netflix Sans';
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmWUlvAw.ttf) format('truetype');
     }
-    .youtube-theme .shaka-bottom-controls {
+    
+    .netflix-theme {
+      font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    
+    /* Netflix Control Bar Styling */
+    .netflix-theme .shaka-bottom-controls {
       width: 100%;
       padding: 0;
       padding-bottom: 0;
       z-index: 1;
+      background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
     }
-    .youtube-theme .shaka-bottom-controls {
+    .netflix-theme .shaka-bottom-controls {
       display: flex;
       flex-direction: column;
     }
-    .youtube-theme .shaka-ad-controls {
+    .netflix-theme .shaka-ad-controls {
       order: 1;
     }
-    .youtube-theme .shaka-controls-button-panel {
+    .netflix-theme .shaka-controls-button-panel {
       order: 2;
-      height: 40px;
-      padding: 0 10px;
+      height: 48px;
+      padding: 0 20px;
     }
-    .youtube-theme .shaka-range-container {
-      margin: 4px 10px 4px 10px;
+    .netflix-theme .shaka-range-container {
+      margin: 6px 20px 6px 20px;
       top: 0;
     }
-    .youtube-theme .shaka-small-play-button {
+    .netflix-theme .shaka-small-play-button {
       order: -3;
     }
-    .youtube-theme .shaka-mute-button {
+    .netflix-theme .shaka-mute-button {
       order: -2;
     }
-    .youtube-theme .shaka-controls-button-panel > * {
+    .netflix-theme .shaka-controls-button-panel > * {
       margin: 0;
-      padding: 3px 8px;
-      color: #EEE;
-      height: 40px;
+      padding: 6px 10px;
+      color: #FFF;
+      height: 48px;
+      transition: opacity 0.2s ease;
     }
-    .youtube-theme .shaka-controls-button-panel > *:focus {
+    .netflix-theme .shaka-controls-button-panel > *:focus {
       outline: none;
-      box-shadow: inset 0 0 0 2px rgba(27, 127, 204, 0.8);
-      color: #FFF;
+      box-shadow: none;
+      opacity: 1;
     }
-    .youtube-theme .shaka-controls-button-panel > *:hover {
-      color: #FFF;
+    .netflix-theme .shaka-controls-button-panel > *:hover {
+      opacity: 0.8;
     }
-    .youtube-theme .shaka-controls-button-panel .shaka-volume-bar-container {
+    .netflix-theme .shaka-controls-button-panel .shaka-volume-bar-container {
       position: relative;
       z-index: 10;
       left: -1px;
       order: -1;
       opacity: 0;
       width: 0px;
-      transition: width 0.2s cubic-bezier(0.4, 0, 1, 1);
-      height: 3px;
+      transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+      height: 4px;
       padding: 0;
     }
-    .youtube-theme .shaka-controls-button-panel .shaka-volume-bar-container:hover,
-    .youtube-theme .shaka-controls-button-panel .shaka-volume-bar-container:focus {
+    .netflix-theme .shaka-controls-button-panel .shaka-volume-bar-container:hover,
+    .netflix-theme .shaka-controls-button-panel .shaka-volume-bar-container:focus {
       display: block;
-      width: 50px;
+      width: 60px;
       opacity: 1;
-      padding: 0 6px;
+      padding: 0 8px;
     }
-    .youtube-theme .shaka-mute-button:hover + div {
+    .netflix-theme .shaka-mute-button:hover + div {
       opacity: 1;
-      width: 50px;
-      padding: 0 6px;
+      width: 60px;
+      padding: 0 8px;
     }
-    .youtube-theme .shaka-current-time {
-      padding: 0 10px;
-      font-size: 12px;
+    .netflix-theme .shaka-current-time {
+      padding: 0 12px;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
-    .youtube-theme .shaka-seek-bar-container {
-      height: 3px;
+    
+    /* Netflix Progress Bar */
+    .netflix-theme .shaka-seek-bar-container {
+      height: 4px;
       position: relative;
-      top: -1px;
+      top: 0;
       border-radius: 0;
       margin-bottom: 0;
+      transition: height 0.2s ease;
     }
-    .youtube-theme .shaka-seek-bar-container .shaka-range-element {
+    .netflix-theme .shaka-seek-bar-container .shaka-range-element {
       opacity: 0;
+      transition: opacity 0.2s ease;
     }
-    .youtube-theme .shaka-seek-bar-container:hover {
-      height: 5px;
-      top: 0;
+    .netflix-theme .shaka-seek-bar-container:hover {
+      height: 6px;
       cursor: pointer;
     }
-    .youtube-theme .shaka-seek-bar-container:hover .shaka-range-element {
+    .netflix-theme .shaka-seek-bar-container:hover .shaka-range-element {
       opacity: 1;
       cursor: pointer;
     }
-    .youtube-theme .shaka-seek-bar-container input[type=range]::-webkit-slider-thumb {
-      background: #FF0000;
+    
+    /* Netflix Red Theme Colors */
+    .netflix-theme .shaka-seek-bar-container input[type=range]::-webkit-slider-thumb {
+      background: #E50914;
+      width: 14px;
+      height: 14px;
       cursor: pointer;
+      border-radius: 50%;
     }
-    .youtube-theme .shaka-seek-bar-container input[type=range]::-moz-range-thumb {
-      background: #FF0000;
+    .netflix-theme .shaka-seek-bar-container input[type=range]::-moz-range-thumb {
+      background: #E50914;
+      width: 14px;
+      height: 14px;
       cursor: pointer;
+      border-radius: 50%;
     }
-    .youtube-theme .shaka-seek-bar-container input[type=range]::-ms-thumb {
-      background: #FF0000;
+    .netflix-theme .shaka-seek-bar-container input[type=range]::-ms-thumb {
+      background: #E50914;
+      width: 14px;
+      height: 14px;
       cursor: pointer;
+      border-radius: 50%;
     }
-    .youtube-theme .shaka-video-container * {
-      font-family: 'Roboto', sans-serif;
+    
+    .netflix-theme .shaka-video-container * {
+      font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
-    .youtube-theme .shaka-video-container .material-icons-round {
+    .netflix-theme .shaka-video-container .material-icons-round {
       font-family: 'Material Icons Sharp';
     }
-    .youtube-theme .shaka-overflow-menu,
-    .youtube-theme .shaka-settings-menu {
-      border-radius: 2px;
-      background: rgba(28, 28, 28, 0.9);
-      text-shadow: 0 0 2px rgb(0 0 0);
-      transition: opacity 0.1s cubic-bezier(0, 0, 0.2, 1);
-      right: 10px;
-      bottom: 50px;
-      padding: 8px 0;
-      min-width: 200px;
+    
+    /* Netflix Menu Styling */
+    .netflix-theme .shaka-overflow-menu,
+    .netflix-theme .shaka-settings-menu {
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8);
+      text-shadow: none;
+      transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      right: 20px;
+      bottom: 60px;
+      padding: 12px 0;
+      min-width: 220px;
     }
-    .youtube-theme .shaka-settings-menu {
-      padding: 0 0 8px 0;
+    .netflix-theme .shaka-settings-menu {
+      padding: 0 0 12px 0;
     }
-    .youtube-theme .shaka-settings-menu button {
-      font-size: 12px;
+    .netflix-theme .shaka-settings-menu button {
+      font-size: 14px;
+      font-weight: 400;
+      padding: 10px 20px;
     }
-    .youtube-theme .shaka-settings-menu button span {
-      margin-left: 33px;
-      font-size: 13px;
+    .netflix-theme .shaka-settings-menu button span {
+      margin-left: 40px;
+      font-size: 14px;
     }
-    .youtube-theme .shaka-settings-menu button[aria-selected="true"] {
+    .netflix-theme .shaka-settings-menu button[aria-selected="true"] {
       display: flex;
+      background-color: rgba(229, 9, 20, 0.1);
     }
-    .youtube-theme .shaka-settings-menu button[aria-selected="true"] span {
+    .netflix-theme .shaka-settings-menu button[aria-selected="true"] span {
       order: 2;
       margin-left: 0;
+      color: #E50914;
     }
-    .youtube-theme .shaka-settings-menu button[aria-selected="true"] i {
+    .netflix-theme .shaka-settings-menu button[aria-selected="true"] i {
       order: 1;
-      font-size: 18px;
-      padding-left: 5px;
+      font-size: 20px;
+      padding-left: 8px;
+      color: #E50914;
     }
-    .youtube-theme .shaka-overflow-menu button {
+    .netflix-theme .shaka-overflow-menu button {
       padding: 0;
     }
-    .youtube-theme .shaka-overflow-menu button i {
+    .netflix-theme .shaka-overflow-menu button i {
       display: none;
     }
-    .youtube-theme .shaka-overflow-menu button .shaka-overflow-button-label {
+    .netflix-theme .shaka-overflow-menu button .shaka-overflow-button-label {
       display: flex;
       justify-content: space-between;
       flex-direction: row;
       align-items: center;
       cursor: default;
       outline: none;
-      height: 40px;
+      height: 44px;
       flex: 0 0 100%;
+      padding: 0 20px;
     }
-    .youtube-theme .shaka-overflow-menu button .shaka-overflow-button-label span {
+    .netflix-theme .shaka-overflow-menu button .shaka-overflow-button-label span {
       flex-shrink: initial;
-      padding-left: 15px;
-      font-size: 13px;
-      font-weight: 500;
+      padding-left: 0;
+      font-size: 14px;
+      font-weight: 400;
       display: flex;
       align-items: center;
     }
-    .youtube-theme .shaka-overflow-menu span + span {
-      color: #FFF;
+    .netflix-theme .shaka-overflow-menu span + span {
+      color: rgba(255, 255, 255, 0.7);
       font-weight: 400 !important;
-      font-size: 12px !important;
+      font-size: 13px !important;
       padding-right: 8px;
       padding-left: 0 !important;
     }
-    .youtube-theme .shaka-overflow-menu span + span:after {
-      content: "navigate_next";
+    .netflix-theme .shaka-overflow-menu span + span:after {
+      content: "chevron_right";
       font-family: 'Material Icons Sharp';
-      font-size: 20px;
+      font-size: 22px;
+      margin-left: 4px;
     }
-    .youtube-theme .shaka-overflow-menu .shaka-pip-button span + span {
-      padding-right: 15px !important;
+    .netflix-theme .shaka-overflow-menu .shaka-pip-button span + span {
+      padding-right: 20px !important;
     }
-    .youtube-theme .shaka-overflow-menu .shaka-pip-button span + span:after {
+    .netflix-theme .shaka-overflow-menu .shaka-pip-button span + span:after {
       content: "";
     }
-    .youtube-theme .shaka-back-to-overflow-button {
-      padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      font-size: 12px;
-      color: #eee;
-      height: 40px;
+    .netflix-theme .shaka-back-to-overflow-button {
+      padding: 12px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 14px;
+      color: #fff;
+      height: 44px;
+      font-weight: 500;
     }
-    .youtube-theme .shaka-back-to-overflow-button .material-icons-round {
-      font-size: 15px;
-      padding-right: 10px;
+    .netflix-theme .shaka-back-to-overflow-button .material-icons-round {
+      font-size: 18px;
+      padding-right: 12px;
     }
-    .youtube-theme .shaka-back-to-overflow-button span {
-      margin-left: 3px !important;
+    .netflix-theme .shaka-back-to-overflow-button span {
+      margin-left: 0 !important;
     }
-    .youtube-theme .shaka-overflow-menu button:hover,
-    .youtube-theme .shaka-settings-menu button:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+    .netflix-theme .shaka-overflow-menu button:hover,
+    .netflix-theme .shaka-settings-menu button:hover {
+      background-color: rgba(255, 255, 255, 0.08);
       cursor: pointer;
     }
-    .youtube-theme .shaka-overflow-menu button:hover label,
-    .youtube-theme .shaka-settings-menu button:hover label {
+    .netflix-theme .shaka-overflow-menu button:hover label,
+    .netflix-theme .shaka-settings-menu button:hover label {
       cursor: pointer;
     }
-    .youtube-theme .shaka-overflow-menu button:focus,
-    .youtube-theme .shaka-settings-menu button:focus {
-      background-color: rgba(255, 255, 255, 0.1);
+    .netflix-theme .shaka-overflow-menu button:focus,
+    .netflix-theme .shaka-settings-menu button:focus {
+      background-color: rgba(255, 255, 255, 0.08);
       border: none;
       outline: none;
     }
-    .youtube-theme .shaka-overflow-menu button,
-    .youtube-theme .shaka-settings-menu button {
-      color: #EEE;
+    .netflix-theme .shaka-overflow-menu button,
+    .netflix-theme .shaka-settings-menu button {
+      color: #FFF;
     }
-    .youtube-theme .shaka-captions-off {
-      color: #BFBFBF;
+    .netflix-theme .shaka-captions-off {
+      color: rgba(255, 255, 255, 0.6);
     }
-    .youtube-theme .shaka-overflow-menu-button {
-      font-size: 18px;
+    .netflix-theme .shaka-overflow-menu-button {
+      font-size: 20px;
       margin-right: 5px;
     }
-    .youtube-theme .shaka-fullscreen-button:hover {
-      font-size: 25px;
-      transition: font-size 0.1s cubic-bezier(0, 0, 0.2, 1);
+    .netflix-theme .shaka-fullscreen-button {
+      font-size: 24px;
+    }
+    .netflix-theme .shaka-fullscreen-button:hover {
+      font-size: 26px;
+      transition: font-size 0.15s ease;
     }
 
     /* Hide center loading spinner */
@@ -283,80 +327,122 @@
       opacity: 0 !important;
     }
 
-    /* Custom Seek Bar Colors */
-    .youtube-theme .shaka-seek-bar {
-      background: rgba(255,255,255,.2) !important;
+    /* Netflix Seek Bar Colors */
+    .netflix-theme .shaka-seek-bar {
+      background: rgba(255, 255, 255, 0.3) !important;
     }
     
-    .youtube-theme .shaka-buffered-range {
-      background: rgba(255,255,255,.4) !important;
+    .netflix-theme .shaka-buffered-range {
+      background: rgba(255, 255, 255, 0.5) !important;
     }
     
-    .youtube-theme .shaka-played-range {
-      background: rgb(255,0,0) !important;
+    .netflix-theme .shaka-played-range {
+      background: #E50914 !important;
     }
 
-    /* Manual play button styles */
+    /* Manual play button styles - Netflix themed */
     .manual-play-button {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.85);
       color: white;
-      padding: 20px 30px;
-      border-radius: 8px;
+      padding: 18px 40px;
+      border-radius: 4px;
       cursor: pointer;
       font-size: 18px;
+      font-weight: 500;
       z-index: 2000;
-      border: 2px solid #ff0000;
+      border: 2px solid #E50914;
       display: none;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
+      letter-spacing: 0.5px;
     }
     
     .manual-play-button:hover {
-      background: rgba(255, 0, 0, 0.8);
+      background: #E50914;
       transform: translate(-50%, -50%) scale(1.05);
+      border-color: #F40612;
     }
+    
+    /* NY BOTS Logo */
     #myLogo {
-      width: 120px;
-      height: 40px;
+      width: 140px;
+      height: 45px;
       position: absolute;
-      right: 5px;
-      top: 10px;
+      right: 15px;
+      top: 15px;
       z-index: 99999 !important;
       pointer-events: auto !important;
       cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+    
+    #myLogo:hover {
+      opacity: 0.8;
     }
 
-    /* Credit Watermark */
+    /* Credit Watermark - Netflix Style */
     .credit {
       position: absolute;
-      bottom: 60px;
-      left: 10px;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 12px;
+      bottom: 70px;
+      left: 20px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
       z-index: 99998;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 5px 10px;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 8px 16px;
       border-radius: 4px;
       pointer-events: none;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
     }
 
-    /* allow click to pass */
+    /* Allow click to pass */
     .shaka-video-container,
     video {
       pointer-events: auto !important;
+    }
+    
+    /* Netflix style button icons */
+    .netflix-theme .shaka-play-button-container button,
+    .netflix-theme .shaka-small-play-button {
+      font-size: 28px !important;
+    }
+    
+    /* Mobile optimizations */
+    @media (max-width: 768px) {
+      .netflix-theme .shaka-controls-button-panel {
+        height: 44px;
+        padding: 0 12px;
+      }
+      .netflix-theme .shaka-range-container {
+        margin: 6px 12px 6px 12px;
+      }
+      #myLogo {
+        width: 100px;
+        height: 32px;
+        right: 10px;
+        top: 10px;
+      }
+      .credit {
+        font-size: 11px;
+        padding: 6px 12px;
+        bottom: 60px;
+        left: 12px;
+      }
     }
   </style>
 </head>
 <body>
 
-<div class="shaka-video-container youtube-theme" data-shaka-player>
+<div class="shaka-video-container netflix-theme" data-shaka-player>
   <video autoplay muted playsinline preload="auto" poster="https://blogger.googleusercontent.com/img/a/AVvXsEiGqaZeRBZ6Y7yV5ZYSRiNRhBa5q9_EMx7R5TJcHd3XJwwHh2YhNOGt76Y4vEcUIjvIaA7W-Tw1RyMLP-4WZwVHA4mk18zwXl7HdSL5WabprIasDOWJO7jpL0zTQB4p_y7X0Rv0xwe-cJ-GvxofAgeRp2FIiNgB90n_b8Cqw0sAaZqVhJg_fi9UyfSO8KY"></video>
-  <a href="https://t.me/cine_arena" target="_blank">
-    <img id="myLogo" src="https://cricstream4u.github.io/cinearena/cineheader.png">
+  <a href="https://t.me/nybots" target="_blank">
+    <img id="myLogo" src="https://graph.org/file/775d6d75e7d397ae49f73.jpg" alt="NY BOTS">
   </a>
   <div class="credit">Powered by NY BOTS</div>
   <div class="manual-play-button" id="manualPlayButton">
@@ -449,7 +535,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                     // Update page title
                     if (channel.name) {
-                        document.title = channel.name + ' - Cine Arena';
+                        document.title = channel.name + ' - NY BOTS';
                     }
                 } else {
                     console.error('Channel not found:', channelName);
@@ -610,4 +696,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 </script>
 
 </body>
-  </html>
+</html>
