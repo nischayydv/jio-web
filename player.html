@@ -502,6 +502,99 @@
                 height: 100vh !important;
             }
         }
+
+        /* Rotation Button for Telegram */
+        .rotation-button {
+            position: fixed;
+            right: 20px;
+            bottom: 90px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.95) 0%, rgba(255, 215, 0, 0.95) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 99999;
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.5);
+            transition: all 0.3s ease;
+            font-size: 24px;
+            color: #000;
+        }
+        
+        .rotation-button:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 6px 20px rgba(218, 165, 32, 0.7);
+        }
+        
+        .rotation-button:active {
+            transform: scale(0.95) rotate(90deg);
+        }
+
+        /* Landscape mode styles */
+        body.landscape-mode {
+            transform-origin: center center;
+        }
+        
+        body.landscape-mode .shaka-video-container {
+            transform: rotate(90deg);
+            transform-origin: center center;
+            width: 100vh !important;
+            height: 100vw !important;
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            margin-left: -50vh !important;
+            margin-top: -50vw !important;
+        }
+        
+        body.landscape-mode #royalLogo {
+            transform: rotate(90deg);
+            right: auto;
+            left: 20px;
+            top: 20px;
+        }
+        
+        body.landscape-mode .quality-badge {
+            transform: rotate(90deg);
+            left: auto;
+            right: 20px;
+            top: 20px;
+        }
+        
+        body.landscape-mode .rotation-button {
+            transform: rotate(90deg);
+            bottom: 50%;
+            right: 10px;
+            margin-bottom: -25px;
+        }
+
+        /* Mobile rotation adjustments */
+        @media (max-width: 768px) {
+            .rotation-button {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+                right: 15px;
+                bottom: 75px;
+            }
+            
+            body.landscape-mode .rotation-button {
+                right: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .rotation-button {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+                right: 12px;
+                bottom: 70px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -509,11 +602,16 @@
 <div class="shaka-video-container royal-theme" data-shaka-player>
     <video autoplay muted playsinline preload="auto" poster="https://blogger.googleusercontent.com/img/a/AVvXsEiGqaZeRBZ6Y7yV5ZYSRiNRhBa5q9_EMx7R5TJcHd3XJwwHh2YhNOGt76Y4vEcUIjvIaA7W-Tw1RyMLP-4WZwVHA4mk18zwXl7HdSL5WabprIasDOWJO7jpL0zTQB4p_y7X0Rv0xwe-cJ-GvxofAgeRp2FIiNgB90n_b8Cqw0sAaZqVhJg_fi9UyfSO8KY"></video>
     
-    <a href="https://t.me/ny_bots" target="_blank">
+    <a href="https://t.me/nybots" target="_blank">
         <img id="royalLogo" src="https://raw.githubusercontent.com/nischayydv/NY-Jpg/main/IMG_20251119_171124_951-removebg-preview.png" alt="Premium">
     </a>
     
-    <div class="quality-badge">NY BOTS</div>
+    <div class="quality-badge">Premium</div>
+    
+    <!-- Rotation Button for Telegram -->
+    <div class="rotation-button" id="rotationButton" title="Rotate Screen">
+        <span style="font-family: 'Material Icons Sharp';">screen_rotation</span>
+    </div>
     
     <div class="manual-play-button" id="manualPlayButton">
         ▶ Play
@@ -729,8 +827,88 @@ document.addEventListener('DOMContentLoaded', async () => {
             attemptAutoplay();
         }
     });
+
+    // Rotation functionality for Telegram
+    const rotationButton = document.getElementById('rotationButton');
+    let isLandscape = false;
+    
+    // Check if running in Telegram
+    const isTelegram = window.TelegramWebviewProxy !== undefined || 
+                       navigator.userAgent.includes('Telegram') ||
+                       window.location.search.includes('tgWebAppVersion');
+    
+    // Show rotation button only in Telegram or mobile
+    if (isTelegram || window.innerWidth <= 768) {
+        rotationButton.style.display = 'flex';
+    } else {
+        rotationButton.style.display = 'none';
+    }
+    
+    rotationButton.addEventListener('click', () => {
+        isLandscape = !isLandscape;
+        
+        if (isLandscape) {
+            document.body.classList.add('landscape-mode');
+            // Prevent scrolling in landscape
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+            
+            // Lock orientation if API available
+            if (screen.orientation && screen.orientation.lock) {
+                screen.orientation.lock('landscape').catch(() => {
+                    console.log('Orientation lock not supported');
+                });
+            }
+        } else {
+            document.body.classList.remove('landscape-mode');
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
+            
+            // Unlock orientation
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        }
+        
+        // Animate button rotation
+        rotationButton.style.transform = isLandscape ? 
+            'scale(1.1) rotate(90deg)' : 
+            'scale(1) rotate(0deg)';
+        
+        setTimeout(() => {
+            rotationButton.style.transform = isLandscape ? 
+                'rotate(90deg)' : 
+                'rotate(0deg)';
+        }, 300);
+    });
+    
+    // Auto-rotate on orientation change (if supported)
+    window.addEventListener('orientationchange', () => {
+        const orientation = window.orientation;
+        if (orientation === 90 || orientation === -90) {
+            if (!isLandscape) {
+                rotationButton.click();
+            }
+        } else if (orientation === 0 || orientation === 180) {
+            if (isLandscape) {
+                rotationButton.click();
+            }
+        }
+    });
+    
+    // Handle window resize
+    window.addEventListener('resize', () => {
+        if (window.innerWidth <= 768) {
+            rotationButton.style.display = 'flex';
+        } else if (!isTelegram) {
+            rotationButton.style.display = 'none';
+            if (isLandscape) {
+                rotationButton.click(); // Reset to portrait
+            }
+        }
+    });
 });
 </script>
 
 </body>
-    </html>
+</html>
