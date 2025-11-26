@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JioTV Live - Professional Streaming Platform</title>
+    <title>NY BOTS - JioTV Live Streaming Platform</title>
     <link rel="shortcut icon" type="image/x-icon" href="https://cinearena.github.io/astro-jwplyr/faviconimg.jpeg" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,6 +16,7 @@
         :root {
             --primary: #1a73e8;
             --primary-hover: #1557b0;
+            --accent: #ff6b35;
             --bg-main: #ffffff;
             --bg-secondary: #f8f9fa;
             --bg-hover: #f1f3f4;
@@ -35,6 +36,77 @@
             color: var(--text-primary);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
 
         /* Header */
@@ -45,6 +117,7 @@
             top: 0;
             z-index: 100;
             box-shadow: var(--shadow-sm);
+            animation: fadeIn 0.5s ease;
         }
 
         .header-content {
@@ -61,39 +134,48 @@
             align-items: center;
             gap: 12px;
             font-size: 1.3rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-primary);
             letter-spacing: -0.3px;
+            animation: slideInLeft 0.6s ease;
         }
 
         .logo-icon {
             width: 40px;
             height: 40px;
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
         }
 
         .telegram-btn {
-            background: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--primary-hover));
             color: white;
             padding: 10px 28px;
-            border-radius: 6px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             font-size: 0.875rem;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
             letter-spacing: 0.2px;
+            animation: slideInRight 0.6s ease;
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.25);
         }
 
         .telegram-btn:hover {
-            background: var(--primary-hover);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 115, 232, 0.4);
+        }
+
+        .telegram-btn:active {
+            transform: translateY(0);
         }
 
         /* Container */
@@ -105,25 +187,46 @@
 
         /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, #1a73e8 0%, #1557b0 100%);
+            background: linear-gradient(135deg, #1a73e8 0%, #1557b0 50%, #0d47a1 100%);
             border-radius: 16px;
             padding: 56px 48px;
             margin-bottom: 40px;
             box-shadow: var(--shadow-lg);
             color: white;
+            position: relative;
+            overflow: hidden;
+            animation: scaleIn 0.6s ease;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .hero-title {
             font-size: 2.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 12px;
             letter-spacing: -0.8px;
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
 
         .hero-subtitle {
             font-size: 1.125rem;
             opacity: 0.95;
             font-weight: 400;
+            animation: fadeInUp 0.8s ease 0.4s both;
         }
 
         /* Search Section */
@@ -134,6 +237,7 @@
             margin-bottom: 32px;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
+            animation: fadeInUp 0.6s ease 0.3s both;
         }
 
         .search-container {
@@ -148,6 +252,7 @@
             transform: translateY(-50%);
             color: var(--text-muted);
             pointer-events: none;
+            transition: all 0.3s ease;
         }
 
         .search-input {
@@ -160,7 +265,7 @@
             font-size: 1rem;
             font-family: inherit;
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
         }
 
         .search-input:hover {
@@ -174,6 +279,10 @@
             box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
         }
 
+        .search-input:focus + .search-icon {
+            color: var(--primary);
+        }
+
         .search-input::placeholder {
             color: var(--text-muted);
         }
@@ -184,6 +293,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 24px;
+            animation: fadeInUp 0.6s ease 0.4s both;
         }
 
         .section-title {
@@ -207,6 +317,7 @@
             border-radius: 12px;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
+            animation: fadeIn 0.5s ease;
         }
 
         .loading-spinner {
@@ -217,11 +328,6 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
             margin: 0 auto 20px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         .loading-text {
@@ -237,6 +343,7 @@
             border-radius: 12px;
             padding: 56px 40px;
             text-align: center;
+            animation: scaleIn 0.5s ease;
         }
 
         .error-title {
@@ -258,6 +365,7 @@
             background: var(--bg-main);
             border-radius: 12px;
             border: 1px solid var(--border);
+            animation: fadeIn 0.5s ease;
         }
 
         .no-results-icon {
@@ -290,15 +398,24 @@
             padding: 24px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid var(--border);
             box-shadow: var(--shadow-sm);
             position: relative;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
         }
 
+        .channel-card:nth-child(1) { animation-delay: 0.05s; }
+        .channel-card:nth-child(2) { animation-delay: 0.1s; }
+        .channel-card:nth-child(3) { animation-delay: 0.15s; }
+        .channel-card:nth-child(4) { animation-delay: 0.2s; }
+        .channel-card:nth-child(5) { animation-delay: 0.25s; }
+        .channel-card:nth-child(6) { animation-delay: 0.3s; }
+
         .channel-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-lg);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 28px rgba(60, 64, 67, 0.25);
             border-color: var(--primary);
         }
 
@@ -309,14 +426,18 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: var(--primary);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 12px 12px 0 0;
             opacity: 0;
-            transition: opacity 0.2s ease;
+            transition: opacity 0.3s ease;
         }
 
         .channel-card:hover::before {
             opacity: 1;
+        }
+
+        .channel-card:active {
+            transform: translateY(-4px) scale(0.98);
         }
 
         .channel-logo-container {
@@ -329,12 +450,18 @@
             background: var(--bg-secondary);
             border-radius: 12px;
             padding: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .channel-card:hover .channel-logo-container {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .channel-logo {
             width: 100%;
             height: 100%;
             object-fit: contain;
+            transition: all 0.3s ease;
         }
 
         .channel-name {
@@ -360,6 +487,13 @@
             border-radius: 16px;
             font-weight: 600;
             border: 1px solid #f5c6cb;
+            transition: all 0.3s ease;
+        }
+
+        .channel-card:hover .live-badge {
+            background: #d93025;
+            color: white;
+            border-color: #d93025;
         }
 
         .live-dot {
@@ -370,13 +504,8 @@
             animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.4;
-            }
+        .channel-card:hover .live-dot {
+            background: white;
         }
 
         /* Main Page */
@@ -398,6 +527,7 @@
             bottom: 0;
             background: #000;
             z-index: 2000;
+            animation: fadeIn 0.3s ease;
         }
 
         .player-page.active {
@@ -416,6 +546,7 @@
             border-top: 1px solid var(--border);
             margin-top: 80px;
             padding: 56px 40px 32px;
+            animation: fadeIn 0.6s ease;
         }
 
         .footer-content {
@@ -426,10 +557,14 @@
 
         .footer-logo {
             font-size: 1.5rem;
-            font-weight: 700;
+            font-weight: 800;
             margin-bottom: 16px;
             color: var(--text-primary);
             letter-spacing: -0.4px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .footer-text {
@@ -447,10 +582,11 @@
             color: var(--primary);
             text-decoration: none;
             font-weight: 600;
+            transition: all 0.3s ease;
         }
 
         .footer-credit a:hover {
-            text-decoration: underline;
+            color: var(--accent);
         }
 
         /* Responsive */
@@ -463,12 +599,31 @@
                 padding: 14px 20px;
             }
 
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .logo-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 0.8rem;
+            }
+
+            .telegram-btn {
+                padding: 8px 20px;
+                font-size: 0.8rem;
+            }
+
             .hero-section {
                 padding: 40px 28px;
             }
 
             .hero-title {
                 font-size: 1.875rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
             }
 
             .search-section {
@@ -478,6 +633,49 @@
             .channels-grid {
                 grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
                 gap: 16px;
+            }
+
+            .channel-card {
+                padding: 20px 16px;
+            }
+
+            .channel-logo-container {
+                width: 80px;
+                height: 80px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-title {
+                font-size: 1.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .channels-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
+            }
+        }
+
+        /* Touch-friendly improvements for mobile */
+        @media (hover: none) and (pointer: coarse) {
+            .channel-card {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .channel-card:active {
+                transform: scale(0.95);
+            }
+
+            .search-input {
+                font-size: 16px; /* Prevents zoom on iOS */
             }
         }
     </style>
@@ -489,8 +687,8 @@
         <header>
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon">JT</div>
-                    <span>JioTV Live</span>
+                    <div class="logo-icon">NB</div>
+                    <span>NY BOTS</span>
                 </div>
                 <a href="https://t.me/nybots" target="_blank" class="telegram-btn">
                     Join Telegram
@@ -501,20 +699,22 @@
         <div class="container">
             <!-- Hero Section -->
             <div class="hero-section">
-                <h1 class="hero-title">Live TV Streaming</h1>
-                <p class="hero-subtitle">Watch premium Indian television channels in high quality</p>
+                <div class="hero-content">
+                    <h1 class="hero-title">Live TV Streaming</h1>
+                    <p class="hero-subtitle">Watch premium Indian television channels in high quality</p>
+                </div>
             </div>
 
             <!-- Search Section -->
             <div class="search-section">
                 <div class="search-container">
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search channels..." autocomplete="off" autocorrect="off" spellcheck="false">
                     <span class="search-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="11" cy="11" r="8"/>
                             <path d="m21 21-4.35-4.35"/>
                         </svg>
                     </span>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search channels...">
                 </div>
             </div>
 
@@ -554,7 +754,7 @@
         <!-- Footer -->
         <footer>
             <div class="footer-content">
-                <div class="footer-logo">JioTV Live</div>
+                <div class="footer-logo">NY BOTS</div>
                 <p class="footer-text">Professional streaming platform for Indian television</p>
                 <p class="footer-credit">© 2025 Powered by <a href="https://t.me/nybots" target="_blank">NY BOTS</a>. All rights reserved.</p>
             </div>
@@ -623,7 +823,8 @@
                             <img class="channel-logo" 
                                  src="${channelLogo}" 
                                  alt="${channelName}"
-                                 onerror="this.src='https://via.placeholder.com/90?text=TV'">
+                                 onerror="this.src='https://via.placeholder.com/90?text=TV'"
+                                 loading="lazy">
                         </div>
                         <div class="channel-name">${channel.name || 'Unknown'}</div>
                         <span class="live-badge">
@@ -635,8 +836,10 @@
             }).join('');
         }
 
-        // Search functionality
-        document.getElementById('searchInput').addEventListener('input', (e) => {
+        // Search functionality with proper input handling
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase().trim();
             
             const filteredChannels = searchTerm === '' 
@@ -647,6 +850,19 @@
             
             renderChannels(filteredChannels);
         });
+
+        // Ensure search input is properly enabled and focused when returning
+        function enableSearchInput() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.disabled = false;
+            searchInput.readOnly = false;
+            searchInput.blur(); // Remove focus first
+            
+            // Small delay to ensure proper re-enable on mobile
+            setTimeout(() => {
+                searchInput.focus();
+            }, 100);
+        }
 
         // Update results count
         function updateResultsCount(count) {
@@ -659,6 +875,10 @@
             // Save current scroll position
             savedScrollPosition = window.scrollY;
             
+            // Disable search input to prevent keyboard issues
+            const searchInput = document.getElementById('searchInput');
+            searchInput.blur(); // Remove focus before hiding
+            
             // Get elements
             const mainPage = document.getElementById('mainPage');
             const playerPage = document.getElementById('playerPage');
@@ -667,6 +887,9 @@
             // Hide main page and show player
             mainPage.classList.add('hidden');
             playerPage.classList.add('active');
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
             
             // Load player
             iframe.src = `${PLAYER_URL}?name=${encodeURIComponent(channelName)}`;
@@ -688,8 +911,16 @@
             playerPage.classList.remove('active');
             mainPage.classList.remove('hidden');
             
+            // Restore body scroll
+            document.body.style.overflow = '';
+            
             // Restore scroll position
             window.scrollTo(0, savedScrollPosition);
+            
+            // Re-enable search input properly
+            setTimeout(() => {
+                enableSearchInput();
+            }, 300);
         }
 
         // Handle browser back button
@@ -707,8 +938,16 @@
             }
         });
 
+        // Prevent zoom on input focus for iOS
+        if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            const viewport = document.querySelector('meta[name=viewport]');
+            if (viewport) {
+                viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+            }
+        }
+
         // Initialize app
         loadChannels();
     </script>
 </body>
-    </html>
+</html>
