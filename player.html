@@ -574,7 +574,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     else if (channelName) {
         try {
-            const response = await fetch('https://playify.pages.dev/Ziotv.json');
+            const response = await fetch('https://jiotv2.teachub.workers.dev/');
             const channels = await response.json();
 
             if (Array.isArray(channels)) {
